@@ -11,7 +11,7 @@ This project is one of my school projects, so most of the comments will be in fi
 **Randomize Array**: Enter, randomizes the cells with your current selection  
 **Place a Cell:** Left Mouse Button  
 **Erase a Cell:** Right Mouse Button  
-**Advance Time:** Spacebar
+**Advance Time:** Spacebar  
 **Hide UI:** F1  
 ### Cell Selection:
 **1:** Sand  
