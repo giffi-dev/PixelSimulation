@@ -4,7 +4,7 @@
 int main(int argc, char** args)
 {
 	// Init Window & SDL2 //
-	CreateWindow("Cell Simulation", 1280, 720, SDL_WINDOW_SHOWN);
+	CreateWindow("Pixel Simulation", 1280, 720, SDL_WINDOW_SHOWN);
 	SetRenderScale({8.0f, 8.0f});
 
 	CellInit();

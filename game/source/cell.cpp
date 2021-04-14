@@ -7,12 +7,6 @@ Enpä tehny koska kyseessä on prototyyppi.
 #include <random>
 #include "cell.h"
 
-void DrawFPS(TTF_Font* font, Vec2i pos, SDL_Color color)
-{
-	std::string fps = "FPS: " + std::to_string(GetFPS());
-	DrawText(fps.c_str(), font, pos, color, false);
-}
-
 // Updates
 void UpdateSand(int x, int y)
 {
@@ -174,7 +168,7 @@ void UpdateGunPowder(int x, int y)
 		return MoveCell({ x,y }, _other, fail_chance);
 	};
 
-	if (gunpoweder_move({ x + 0, y + 1 }))
+	if (gunpoweder_move({ x    , y + 1 }))
 		return;
 	if (gunpoweder_move({ x + 1, y + 1 }))
 		return;
@@ -187,6 +181,7 @@ static SDL_Surface* s_surface;      // SDL2sen cpu textuuri, joka piirretään näy
 static SDL_Color*	s_screenpixels; // Näytölle piirretävän pixel data, jota s_surface käyttää
 static Cell*		s_celltable;    // Pointer cell arrayhyn joka sisältää kaikki näytöllä näkyvät cellit
 static CellType		s_current_cell = CellType::Sand; // Tällä hetkellä valitty celli, jonka voi piirtää näytölle
+static bool         s_drawui = true; // F1 näppäin flippaa tän
 
 void UpdateCells()
 {
@@ -204,6 +199,18 @@ void UpdateCells()
 		{
 			s_celltable[i].type = CellType::Air;
 		}
+	}
+
+	// UIn piilottamiseen näppäin
+	static bool was_f1_down = false; 
+	if (IsKeyDown(SDL_SCANCODE_F1) && !was_f1_down)
+	{
+		s_drawui = !s_drawui;
+		was_f1_down = true;
+	}
+	else if (!IsKeyDown(SDL_SCANCODE_F1))
+	{
+		was_f1_down = false;
 	}
 
 	// Cellin valinta
@@ -327,8 +334,14 @@ void DrawCells()
 	// Poista texture
 	SDL_DestroyTexture(texture);
 	
-	PrintCellType(s_current_cell);
-	DrawFPS(s_cellfont, {2, 2}, RED);
+	if (s_drawui)
+	{
+		PrintCellType(s_current_cell);
+
+		// Piirrä FPS
+		std::string fps = "FPS: " + std::to_string(GetFPS());
+		DrawText(fps.c_str(), s_cellfont, {4,4}, RED, false);
+	}
 }
 
 void PrintCellType(CellType type)
