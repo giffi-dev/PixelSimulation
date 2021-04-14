@@ -336,17 +336,34 @@ void DrawCells()
 	
 	if (s_drawui)
 	{
-		PrintCellType(s_current_cell);
+		SetRenderScale({ 4.0f, 4.0f }); // Mahollistaa pienemm‰n textin piirt‰misen
 
-		// Piirr‰ FPS
-		std::string fps = "FPS: " + std::to_string(GetFPS());
-		DrawText(fps.c_str(), s_cellfont, {4,4}, RED, false);
+		static bool alert_space = true;
+		if (alert_space)
+		{
+			DrawText("Paina Spacei‰ pohjassa", s_cellfont, { FIELD_W, FIELD_H - 8}, RED, true);
+			DrawText("edist‰‰ksesi aikaa"    , s_cellfont, { FIELD_W, FIELD_H + 8 }, RED, true);
+			if (IsKeyDown(SDL_SCANCODE_SPACE))
+			{
+				alert_space = false;
+			}
+		}
+		else
+		{
+			PrintCellType(s_current_cell);
+
+			// Piirr‰ FPS
+			std::string fps = "FPS: " + std::to_string(GetFPS());
+			DrawText(fps.c_str(), s_cellfont, {4,4}, RED, false);
+		}
+
+		SetRenderScale({ 8.0f, 8.0f }); // Pist‰ "zoomi" takas normaaliin
 	}
 }
 
 void PrintCellType(CellType type)
 {
-	const Vec2i pos = { FIELD_W/2, 80};
+	const Vec2i pos = { FIELD_W, 170};
 	switch (type)
 	{
 	case CellType::Air:
