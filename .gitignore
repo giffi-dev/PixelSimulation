@@ -6,6 +6,9 @@
 *.lo
 *.o
 *.obj
+*.iobj
+*.pdb
+*.ipdb
 
 # Precompiled Headers
 *.gch
@@ -24,7 +27,6 @@
 *.lai
 *.la
 *.a
-*.lib
 
 # Executables
 *.exe
@@ -33,3 +35,4 @@
 *.AppImage
 
 /.vs
+/bin_int
